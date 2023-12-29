@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>489</width>
+    <height>347</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>489</width>
+    <height>347</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>489</width>
+    <height>347</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>About</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>0</y>
+      <width>611</width>
+      <height>311</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>611</width>
+      <height>311</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>611</width>
+      <height>311</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>Info about CALCULATOR
+
+Programm is created for calculating expressions with x,
+ and drawing graphics.
+
+You can calculate expressions with x when define x.
+
+If you make any mistake the answer will be &quot;Error&quot;.
+
+You can drawing graphics. The plot is appiares in a new window.
+
+If you make any mistake the plot will be empty.
+
+If you make any mistake the answer will be ERROR.
+
+Enjoy with CALCULATOR!!!</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>489</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
