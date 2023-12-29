@@ -4,7 +4,7 @@ import pyqtgraph
 from pathlib import Path
 from PyQt6 import uic
 from PyQt6.QtWidgets import QDialog, QGraphicsScene
-from presenter.presenter import Presenter
+from model.model_calc import ModelCalc
 
 
 class GraphWindow(QDialog):
@@ -33,7 +33,7 @@ class GraphWindow(QDialog):
             self.plt.setXRange(x_begin, x_end)
             self.plt.setYRange(y_begin, y_end)
             x_value = numpy.linspace(x_begin, x_end, 10000)
-            y_value = numpy.array([Presenter.calculate(formula, x) for x in x_value])
+            y_value = numpy.array([ModelCalc.calculate(formula, x) for x in x_value])
             self.plt.showGrid(x=True, y=True, alpha=1.0)
             self.plt.plot(x_value, y_value, symbol='o', symbolSize=0.5, symbolBrush='b')
 
