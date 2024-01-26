@@ -36,19 +36,19 @@ class ModelCalc:
             if (not i or str_input[i - 1] in "+-*/(") and str_input[i] in "+-":
                 if str_input[i] == '-':
                     str_output = str_output + 'u'
-                i = i + 1
+                i += 1
             if str_input[i] in "acstlm":
                 if str_input[i] in 'a' or str_input[i + 1] in 'q':
                     str_output = str_output + chr(ord(str_input[i + 1]) - 32)
-                    i = i + 4
+                    i += 4
                 elif str_input[i] in 'l' and str_input[i + 1] in 'n':
                     str_output = str_output + 'L'
-                    i = i + 2
+                    i += 2
                 else:
                     str_output = str_output + str_input[i]
-                    i = i + 3
+                    i += 3
             str_output = str_output + str_input[i]
-            i = i + 1
+            i += 1
         return str_output
 
     def __read_symbol(self, symbol):
@@ -120,11 +120,3 @@ class ModelCalc:
         elif symbol in "sScCtTlLQ":
             result = 5
         return result
-
-
-
-# if __name__ == "__main__":
-#     formula = "1+sin(x)"
-#     model = ModelCalc()
-#     res = model.calculate(formula, 0)
-#     print(res)
