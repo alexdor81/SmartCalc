@@ -1,4 +1,3 @@
-# This Python file uses the following encoding: utf-8
 import os
 import string
 from pathlib import Path
@@ -13,20 +12,13 @@ SYMBOL = "()ex*/"
 OPERATOR = "+-*/^d"
 NUMBER = string.digits + ".e"
 
-
-class AboutWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        uic.loadUi(Path(__file__).resolve().parent / 'about.ui', self)
-
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi(Path(__file__).resolve().parent / 'mainwindow.ui', self)
         self.setWindowTitle('SmartCalculator')
         self.graph = GraphWindow()
-        self.about = AboutWindow()
+        self.model = ModelCalc()
         self.history = QStandardItemModel()
         self.history_list.setModel(self.history)
         if os.path.isfile('history.txt'):
@@ -59,11 +51,7 @@ class MainWindow(QMainWindow):
         self.pushButton_equal.clicked.connect(self.equal_click)
         self.pushButton_graph.clicked.connect(self.graph_click)
         self.pushButton_clear.clicked.connect(self.clear_history)
-        self.actionAbout.triggered.connect(self.open_about)
         self.history_list.clicked[QModelIndex].connect(self.get_history_list)
-
-    def open_about(self):
-        self.about.show()
 
     def digit_click(self, btn):
         res = self.enter_exp.text()
@@ -185,7 +173,7 @@ class MainWindow(QMainWindow):
                     x_value = float(x_value)
                 else:
                     x_value = 0
-                self.res_output.setText(str(ModelCalc.calculate(res, x_value)))
+                self.res_output.setText(str(self.model.calculate(res, x_value)))
                 self.history.appendRow(QStandardItem(res))
                 self.save_history()
 

@@ -12,6 +12,7 @@ class GraphWindow(QDialog):
         super().__init__()
         uic.loadUi(Path(__file__).resolve().parent / 'graphwindow.ui', self)
         self.setWindowTitle('GraphView')
+        self.model = ModelCalc()
         self.plt = pyqtgraph.PlotWidget()
         self.plt.setBackground('w')
         self.scene = QGraphicsScene()
@@ -33,7 +34,7 @@ class GraphWindow(QDialog):
             self.plt.setXRange(x_begin, x_end)
             self.plt.setYRange(y_begin, y_end)
             x_value = numpy.linspace(x_begin, x_end, 10000)
-            y_value = numpy.array([ModelCalc.calculate(formula, x) for x in x_value])
+            y_value = numpy.array([self.model.calculate(formula, x) for x in x_value])
             self.plt.showGrid(x=True, y=True, alpha=1.0)
             self.plt.plot(x_value, y_value, symbol='o', symbolSize=0.5, symbolBrush='b')
 
