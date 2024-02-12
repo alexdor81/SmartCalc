@@ -9,15 +9,15 @@ class ModelCalc:
         self.operators = []
 
     def calculate(self, str_input, x):
-        self.numbers = []
-        self.operators = []
+        self.numbers.clear()
+        self.operators.clear()
         result = 0.0
         number = ""
-        str_output = self.__validation(str_input)
-        for i in range(len(str_output)):
-            if str_output[i] in string.digits + ".e":
-                number = number + str_output[i]
-                if str_output[i] == "e" and str_output[i + 1] in "+-":
+        str_output = self.validation(str_input)
+        for i, output in enumerate(str_output):
+            if output in string.digits + ".e":
+                number = number + output
+                if output in "e" and str_output[i + 1] in "+-":
                     number = number + str_output[i + 1]
                     str_output = str_output[: i + 1] + str_output[i + 2 :]
                 elif (
@@ -26,17 +26,17 @@ class ModelCalc:
                 ):
                     self.numbers.append(float(number))
                     number = ""
-            elif str_output[i] in "x":
+            elif output in "x":
                 self.numbers.append(x)
             else:
-                self.__read_symbol(str_output[i])
+                self.__read_symbol(output)
         while self.operators:
             self.__calculations()
         if self.numbers:
             result = self.numbers.pop()
         return result
 
-    def __validation(self, str_input):
+    def validation(self, str_input):
         str_output = ""
         i = 0
         while i < len(str_input):

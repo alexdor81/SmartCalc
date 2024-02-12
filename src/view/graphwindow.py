@@ -1,7 +1,7 @@
-import numpy
 import string
-import pyqtgraph
 from pathlib import Path
+import numpy
+import pyqtgraph
 from PyQt6 import uic
 from PyQt6.QtWidgets import QDialog, QGraphicsScene
 from model.model_calc import ModelCalc

@@ -5,8 +5,8 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtCore import QRegularExpression, QModelIndex
 from PyQt6.QtGui import QRegularExpressionValidator, QStandardItemModel, QStandardItem
-from view.graphwindow import GraphWindow
 from model.model_calc import ModelCalc
+from view.graphwindow import GraphWindow
 
 SYMBOL = "()ex*/"
 OPERATOR = "+-*/^d"
@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
     def digit_click(self, btn):
         res = self.enter_exp.text()
         if not res or res[-1] not in ")x":
-            if res and res[-1] == "0" and not self.dot_:
+            if res and res[-1] in "0" and not self.dot_:
                 res = res[:-1]
                 if res and res[-1] in string.digits:
                     res = res + "0"
@@ -146,9 +146,9 @@ class MainWindow(QMainWindow):
     def backspace_click(self):
         if self.button_:
             res = self.enter_exp.text()
-            if res[-1] == ")":
+            if res[-1] in ")":
                 self.bracket_ += 1
-            elif res[-1] == "(":
+            elif res[-1] in "(":
                 self.bracket_ -= 1
             res = res[: -self.button_.pop()]
             self.enter_exp.setText(res)
@@ -156,9 +156,9 @@ class MainWindow(QMainWindow):
             if res and res[-1] in NUMBER:
                 self.digit_ = True
                 while res and res[-1] in NUMBER:
-                    if res[-1] == ".":
+                    if res[-1] in ".":
                         self.dot_ = True
-                    elif res[-1] == "e":
+                    elif res[-1] in "e":
                         self.exp_ = self.dot_ = True
                     res = res[:-1]
 
