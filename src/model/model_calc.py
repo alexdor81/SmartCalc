@@ -75,7 +75,7 @@ class ModelCalc:
     def __calculations(self):
         result = 0.0
         func = self.operators.pop()
-        if self.__priority(func) == 5 or self.__priority(func) == 3:
+        if func in "usScCtTlLQ":
             a = self.numbers.pop()
             match func:
                 case "s":
