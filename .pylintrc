@@ -8,4 +8,5 @@ disable = missing-function-docstring,
         invalid-str-returned,
         no-member,
         no-name-in-module,
-        too-many-instance-attributes
+        too-many-instance-attributes,
+        import-error
