@@ -6,4 +6,6 @@ disable = missing-function-docstring,
         attribute-defined-outside-init,
         line-too-long,
         invalid-str-returned,
-        no-member
+        no-member,
+        no-name-in-module,
+        too-many-instance-attributes
