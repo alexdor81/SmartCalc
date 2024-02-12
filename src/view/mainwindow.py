@@ -12,20 +12,21 @@ SYMBOL = "()ex*/"
 OPERATOR = "+-*/^d"
 NUMBER = string.digits + ".e"
 
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi(Path(__file__).resolve().parent / 'mainwindow.ui', self)
-        self.setWindowTitle('SmartCalculator')
+        uic.loadUi(Path(__file__).resolve().parent / "mainwindow.ui", self)
+        self.setWindowTitle("SmartCalculator")
         self.graph = GraphWindow()
         self.model = ModelCalc()
         self.history = QStandardItemModel()
         self.history_list.setModel(self.history)
-        if os.path.isfile('history.txt'):
+        if os.path.isfile("history.txt"):
             self.load_history()
 
         validator = QRegularExpressionValidator(self)
-        validator.setRegularExpression(QRegularExpression(r'[-+]?[0-9]*\.?[0-9]*'))
+        validator.setRegularExpression(QRegularExpression(r"[-+]?[0-9]*\.?[0-9]*"))
         self.enter_x.setValidator(validator)
 
         self.bracket_ = 0
@@ -55,10 +56,10 @@ class MainWindow(QMainWindow):
 
     def digit_click(self, btn):
         res = self.enter_exp.text()
-        if not len(res) or res[-1] not in ")x":
-            if len(res) and res[-1] == '0' and not self.dot_:
+        if not res or res[-1] not in ")x":
+            if res and res[-1] == "0" and not self.dot_:
                 res = res[:-1]
-                if len(res) and res[-1] in string.digits:
+                if res and res[-1] in string.digits:
                     res = res + "0"
                 else:
                     self.button_.pop()
@@ -73,7 +74,7 @@ class MainWindow(QMainWindow):
                 self.enter_exp.setText(res + self.sender().text())
                 self.button_.append(len(self.sender().text()))
                 self.dot_ = True
-            elif not len(res) or res[-1] not in ")x":
+            elif res or res[-1] not in ")x":
                 self.enter_exp.setText(res + "0" + self.sender().text())
                 self.button_.append(len(self.sender().text()))
                 self.button_.append(len(self.sender().text()))
@@ -81,19 +82,19 @@ class MainWindow(QMainWindow):
 
     def plusminus_click(self, btn):
         res = self.enter_exp.text()
-        if len(res) and res[-1] in "+-":
-            res = res[:-self.button_.pop()]
-        if not len(res) or res[-1] in string.digits + SYMBOL:
+        if res and res[-1] in "+-":
+            res = res[: -self.button_.pop()]
+        if not res or res[-1] in string.digits + SYMBOL:
             self.enter_exp.setText(res + btn.text())
             self.button_.append(len(btn.text()))
-            if len(res) and res[-1] != 'e':
+            if res and res[-1] != "e":
                 self.settings(False)
 
     def arithmetic_click(self, btn):
         res = self.enter_exp.text()
-        if len(res):
+        if res:
             if len(res) > 1 and res[-1] in OPERATOR and res[-2] not in "(e":
-                res = res[:-self.button_.pop()]
+                res = res[: -self.button_.pop()]
             if res[-1] in string.digits + ")x":
                 self.enter_exp.setText(res + btn.text())
                 self.button_.append(len(btn.text()))
@@ -101,14 +102,14 @@ class MainWindow(QMainWindow):
 
     def function_click(self, btn):
         res = self.enter_exp.text()
-        if not len(res) or (not self.digit_ and res[-1] not in ")xd"):
+        if not res or (not self.digit_ and res[-1] not in ")xd"):
             self.enter_exp.setText(res + btn.text() + "(")
             self.button_.append(len(btn.text()) + 1)
             self.bracket_ += 1
 
     def bracket_open_click(self):
         res = self.enter_exp.text()
-        if not len(res) or (not self.digit_ and res[-1] not in ")x"):
+        if not res or (not self.digit_ and res[-1] not in ")x"):
             self.enter_exp.setText(res + self.sender().text())
             self.button_.append(len(self.sender().text()))
             self.bracket_ += 1
@@ -123,14 +124,14 @@ class MainWindow(QMainWindow):
 
     def e_click(self):
         res = self.enter_exp.text()
-        if not self.exp_ and len(res) and res[-1] in string.digits:
+        if not self.exp_ and res and res[-1] in string.digits:
             self.enter_exp.setText(res + self.sender().text())
             self.button_.append(len(self.sender().text()))
             self.settings(True)
 
     def x_click(self):
         res = self.enter_exp.text()
-        if not len(res) or (not self.digit_ and res[-1] not in "x)"):
+        if not res or (not self.digit_ and res[-1] not in "x)"):
             self.enter_exp.setText(res + self.sender().text())
             self.button_.append(len(self.sender().text()))
 
@@ -143,28 +144,28 @@ class MainWindow(QMainWindow):
         self.settings(False)
 
     def backspace_click(self):
-        if len(self.button_):
+        if self.button_:
             res = self.enter_exp.text()
-            if res[-1] == ')':
+            if res[-1] == ")":
                 self.bracket_ += 1
-            elif res[-1] == '(':
+            elif res[-1] == "(":
                 self.bracket_ -= 1
-            res = res[:-self.button_.pop()]
+            res = res[: -self.button_.pop()]
             self.enter_exp.setText(res)
             self.settings(False)
-            if len(res) and res[-1] in NUMBER:
+            if res and res[-1] in NUMBER:
                 self.digit_ = True
-                while len(res) and res[-1] in NUMBER:
-                    if res[-1] == '.':
+                while res and res[-1] in NUMBER:
+                    if res[-1] == ".":
                         self.dot_ = True
-                    elif res[-1] == 'e':
+                    elif res[-1] == "e":
                         self.exp_ = self.dot_ = True
                     res = res[:-1]
 
     def equal_click(self):
         res = self.enter_exp.text()
         self.res_output.setText("")
-        if len(res):
+        if res:
             if self.bracket_ or res[-1] not in string.digits + "x)":
                 self.res_output.setText("Error")
             else:
@@ -178,20 +179,20 @@ class MainWindow(QMainWindow):
                 self.save_history()
 
     def load_history(self):
-        with open('history.txt', 'rt', encoding='utf-8') as file:
+        with open("history.txt", "rt", encoding="utf-8") as file:
             for item in file.readlines():
                 self.history.appendRow(QStandardItem(item.strip()))
 
     def save_history(self):
-        with open('history.txt', 'at', encoding='utf-8') as file:
-            file.write(self.enter_exp.text() + '\n')
+        with open("history.txt", "at", encoding="utf-8") as file:
+            file.write(self.enter_exp.text() + "\n")
 
     def get_history_list(self, index):
         self.enter_exp.setText(self.history.itemFromIndex(index).text())
 
     def clear_history(self):
         self.history.clear()
-        with open('history.txt', 'wt', encoding='utf-8') as _:
+        with open("history.txt", "wt", encoding="utf-8") as _:
             pass
 
     def graph_click(self):

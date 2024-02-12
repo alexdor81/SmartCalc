@@ -10,11 +10,11 @@ from model.model_calc import ModelCalc
 class GraphWindow(QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi(Path(__file__).resolve().parent / 'graphwindow.ui', self)
-        self.setWindowTitle('GraphView')
+        uic.loadUi(Path(__file__).resolve().parent / "graphwindow.ui", self)
+        self.setWindowTitle("GraphView")
         self.model = ModelCalc()
         self.plt = pyqtgraph.PlotWidget()
-        self.plt.setBackground('w')
+        self.plt.setBackground("w")
         self.scene = QGraphicsScene()
         self.scene.addWidget(self.plt)
         self.pushButton_build.clicked.connect(self.build_graph)
@@ -36,13 +36,13 @@ class GraphWindow(QDialog):
             x_value = numpy.linspace(x_begin, x_end, 10000)
             y_value = numpy.array([self.model.calculate(formula, x) for x in x_value])
             self.plt.showGrid(x=True, y=True, alpha=1.0)
-            self.plt.plot(x_value, y_value, symbol='o', symbolSize=0.5, symbolBrush='b')
+            self.plt.plot(x_value, y_value, symbol="o", symbolSize=0.5, symbolBrush="b")
 
     def check_formula(self, formula):
         res = True
         lst = list(formula)
-        bracket = lst.count(')') - lst.count('(')
-        if not len(formula) or bracket or formula[-1] not in list(string.digits) + ['x', ')']:
+        bracket = lst.count(")") - lst.count("(")
+        if not formula or bracket or formula[-1] not in string.digits + "x)":
             res = False
             self.label_function.setText("Error")
         return res
