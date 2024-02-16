@@ -14,22 +14,20 @@ class ModelCalc:
         result = 0.0
         number = ""
         str_output = self.validation(str_input)
-        for i, output in enumerate(str_output):
-            if output in string.digits + ".e":
-                number = number + output
-                if output in "e" and str_output[i + 1] in "+-":
-                    number = number + str_output[i + 1]
-                    str_output = str_output[: i + 1] + str_output[i + 2 :]
-                elif (
-                    i == len(str_output) - 1
-                    or str_input[i + 1] not in string.digits + ".e"
-                ):
+        while str_output:
+            if str_output[0] in string.digits + ".e":
+                number += str_output[0]
+                if str_output[0] in "e" and str_output[1] in "+-":
+                    number += str_output[1]
+                    str_output = str_output[1:]
+                elif len(str_output) == 1 or str_output[1] not in string.digits + ".e":
                     self.numbers.append(float(number))
                     number = ""
-            elif output in "x":
+            elif str_output[0] in "x":
                 self.numbers.append(x)
             else:
-                self.__read_symbol(output)
+                self.__read_symbol(str_output[0])
+            str_output = str_output[1:]
         while self.operators:
             self.__calculations()
         if self.numbers:
@@ -40,21 +38,21 @@ class ModelCalc:
         str_output = ""
         i = 0
         while i < len(str_input):
-            if (not i or str_input[i - 1] in "+-*/(") and str_input[i] in "+-":
+            if str_input[i] in "+-" and (i == 0 or str_input[i - 1] in "+-*/("):
                 if str_input[i] == "-":
-                    str_output = str_output + "u"
+                    str_output += "u"
                 i += 1
             if str_input[i] in "acstlm":
                 if str_input[i] in "a" or str_input[i + 1] in "q":
-                    str_output = str_output + chr(ord(str_input[i + 1]) - 32)
+                    str_output += chr(ord(str_input[i + 1]) - 32)
                     i += 4
                 elif str_input[i] in "l" and str_input[i + 1] in "n":
-                    str_output = str_output + "L"
+                    str_output += "L"
                     i += 2
                 else:
-                    str_output = str_output + str_input[i]
+                    str_output += str_input[i]
                     i += 3
-            str_output = str_output + str_input[i]
+            str_output += str_input[i]
             i += 1
         return str_output
 
@@ -62,7 +60,7 @@ class ModelCalc:
         if symbol in "(" or not self.operators:
             self.operators.append(symbol)
         elif symbol in ")":
-            while self.operators[-1] != "(":
+            while self.operators[-1] not in "(":
                 self.__calculations()
             self.operators.pop()
         else:
