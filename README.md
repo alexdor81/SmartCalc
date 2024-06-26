@@ -16,3 +16,6 @@
 
 - Интерфейс программы реализован на базе PyQT
 
+![](materials/calc.png)
+
+![](materials/graph.png)
